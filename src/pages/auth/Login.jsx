@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -57,14 +58,16 @@ function Login() {
             <button
               type="submit"
               className="flex h-11 px-8 py-2.5 justify-center items-center gap-2 
-                         rounded-md bg-[#265B80] text-white"
+              rounded-md bg-[#265B80] text-white"
             >
               Login
             </button>
           </form>
           <p className="mt-4">
             Don't have an account?{" "}
-            <span className="font-medium text-[#265B80]">Register here</span>
+            <span className="font-medium text-[#265B80]">Register here
+              
+            </span>
           </p>
           <p className="font-medium text-[#265B80]">Forgot password?</p>
         </div>
