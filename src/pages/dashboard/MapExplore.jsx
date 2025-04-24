@@ -3,10 +3,11 @@ import { Search, Menu, Compass, Home, Settings, Bell } from 'lucide-react';
 
 export default function MapExplore() {
   return (
-    <div className="flex-1 flex flex-col overflow-hidden bg-gray-100">
+
+    <div className="flex-1 flex flex-col overflow-hidden bg-[#FAFAFA] mb-7">
       {/* Top Navigation */}
-      <header className="h-16 bg-[#FAFAFA] flex items-center justify-between px-6 shadow-sm">
-        <div className="flex items-center">
+         <header className="h-16 bg-[#FAFAFA] flex items-center justify-between px-6 pt-4 ">
+         <div className="flex items-center">
           <span className="text-xl font-semibold text-gray-700 flex items-center">
             <Compass className="mr-2" size={22} />
             Explore
@@ -15,21 +16,21 @@ export default function MapExplore() {
         
         <div className="flex items-center space-x-4">
           <button className="p-2 rounded-full hover:bg-gray-100">
-            <Search className="h-5 w-5 text-gray-500" />
+          <Search size={18} />
           </button>
           
           <button className="p-2 rounded-full hover:bg-gray-100">
-            <Bell className="h-5 w-5 text-gray-500" />
+          <Bell size={18} />
           </button>
           
-          <button className="h-8 w-8 rounded-full bg-red-500 text-white flex items-center justify-center">
-            <span className="text-sm font-medium">IS</span>
+          <button className="h-8 w-8 rounded-full hover:bg-gray-100 ">
+          <img src="/images/profilepic.png" alt="profile picture" className="h-8 " />
           </button>
         </div>
       </header>
-      
+
       {/* Search Bar */}
-      <div className="px-6 py-4">
+      <div className="px-6 py-6">
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-gray-400" />
@@ -50,14 +51,13 @@ export default function MapExplore() {
   );
 }
 
-// This is a simplified map component that mimics the map in the image
 function MapComponent() {
   return (
-    <div className="relative h-full w-full bg-gray-200">
+    <div className="relative h-full w-full bg-[#FAFAFA]  px-6" >
       <img
-        src="/api/placeholder/1350/700"
+        src="/images/basemap-image.png"
         alt="Map"
-        className="object-cover w-full h-full"
+        className="object-cover w-full h-full rounded-lg"
       />
     </div>
   );

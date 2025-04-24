@@ -13,7 +13,8 @@ import DashboardLayout from './components/layout/DashboardLayout';
 import AirQtyDash from './pages/dashboard/AirQtyDashbd';
 import MapExplore from './pages/dashboard/MapExplore';
 import Notification from './pages/dashboard/settings/Notification';
-import Privacy from './pages/dashboard/settings/Privacy';
+import Profile from './pages/dashboard/settings/Profile';
+import Privacy from './pages/dashboard/settings/Profile';
 import HelpSupport from './pages/dashboard/settings/HelpSupport';
 import './index.css';
 import { Import } from 'lucide-react';
@@ -43,7 +44,7 @@ function App() {
           <Route path="/dashboard/air-qty-dashbd" element={<AirQtyDash />} />
           <Route path="/dashboard/map-explore" element={<MapExplore />} />
 
-          <Route path="settings/privacy" element={<Privacy />} />
+          <Route path="settings/profile" element={<Privacy />} />
         </Route>
     
       </Routes>
