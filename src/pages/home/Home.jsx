@@ -31,11 +31,10 @@ function Home() {
               your loved ones
             </p>
             <div className="flex justify-center gap-8">
-              <button className="bg-[#265B80] h-14 text-white py-2.5 px-8 justify-center items-center gap-2  rounded-lg hover:bg-blue-700">
-                Get Started
+              <button className="bg-[#265B80] h-14 text-white py-2.5 px-8 justify-center items-center gap-2  rounded-lg hover:bg-blue-700"><Link to="/signup">Get Started</Link>
               </button>
-              <button className="border border-[#265B80] border-opacity-100 h-14 text-[#265B80] py-2.5 px-8 justify-center items-center gap-2  rounded-lg hover:bg-blue-700">
-                Learn More
+              <button className="border border-[#265B80] border-opacity-100 h-14 text-[#265B80] py-2.5 px-8 justify-center items-center gap-2  rounded-lg hover:bg-blue-700"><Link to="/how-it-works">Learn More</Link>
+                
               </button>
             </div>
           </div>

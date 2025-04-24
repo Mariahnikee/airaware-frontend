@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 function Header() {
   return (
       
-        <header className="site-header bg-[#ffffff] shadow-sm flex py-5 px-[128px] justify-between items-center border-b-1 border-[#265B80] border-opacity-100" >
+        <header className="site-header bg-[#ffffff] shadow-sm flex py-5 px-[128px] justify-between items-center border-b border-[#c6d7d9] border-opacity-100" >
         <div className="flex">
           <Link to="/">
           <img
@@ -28,7 +28,7 @@ function Header() {
 
 
          <div className="auth-links">
-        <Link to="/signup" className="login-btn h-[44px] px-4 py-2.5 text-[#265B80] rounded hover:bg-[#c7cfd5] border border-[#265B80]">Log In</Link>
+        <Link to="/login" className="login-btn h-[44px] px-4 py-2.5 text-[#265B80] rounded hover:bg-[#c7cfd5] border border-[#265B80]">Log In</Link>
         </div>  
 
         

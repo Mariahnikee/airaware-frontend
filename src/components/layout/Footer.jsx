@@ -3,7 +3,7 @@ import React from 'react'
 const Footer = () => {
   return (
          <footer className="bg-white">
-        <div className="container p-10">
+        <div className="container px-12 py-5">
           <div className="grid md:grid-cols-4 gap-8">
             {/* Column 1 */}
             <div>
@@ -61,7 +61,7 @@ const Footer = () => {
 
             {/* Column 3 */}
             <div>
-              <h3 className="font-semibold text-blue-900 mb-4">
+              <h3 className="font-semibold text-[#1E4866] mb-4">
                 Partnership and Support
               </h3>
               <ul className="space-y-2 text-[#1E4866]">
