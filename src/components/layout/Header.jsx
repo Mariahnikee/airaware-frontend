@@ -12,7 +12,7 @@ function Header() {
           <Link to="/">
             <img src="logo.png" alt="Air Aware Logo" className="h-8" />
           </Link>
-          <span className="ml-2 text-[#88C6A1] font-medium">Air Aware</span>
+          <Link to="/"><span className="ml-2 text-[#88C6A1] font-medium">Air Aware</span></Link>
         </div>
 
         {/* Mobile Menu Toggle */}

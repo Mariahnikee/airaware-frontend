@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Home } from 'lucide-react';
+import { Home, BookMarked, NotebookPen, Hospital, SquareActivity} from 'lucide-react';
 
 export default function Impact() {
   return (
@@ -36,8 +36,8 @@ export default function Impact() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="bg-blue-50 p-6 rounded-lg">
-                  <div className="bg-blue-100 w-8 h-8 flex items-center justify-center rounded mb-4">
-                    <Home className="mr-3" size={20} />
+                  <div className="bg-blue-100 w-8 h- flex items-center justify-center rounded-3xl mb-4">
+                    <BookMarked className="p-1" size={30} />
                   </div>
                   
                   <h3 className="text-[18px] font-semibold text-[#265B80]">Awareness & Education</h3>
@@ -47,8 +47,8 @@ export default function Impact() {
                 </div>
                 
                 <div className="bg-[#FFFEF0] p-6 rounded-lg">
-                  <div className="bg-blue-100 w-8 h-8 flex items-center justify-center rounded mb-4">
-                   <Home className="mr-3" size={20} />
+                <div className="bg-blue-100 w-8 h- flex items-center justify-center rounded-3xl mb-4">
+                    <NotebookPen className="p-1" size={30} />
                   </div>
                   
                   <h3 className="text-[18px] font-semibold text-[#265B80]">Research & Advocacy</h3>
@@ -58,8 +58,8 @@ export default function Impact() {
                 </div>
                 
                 <div className="bg-[#FFFEF0] p-6 rounded-lg">
-                  <div className="bg-blue-100 w-8 h-8 flex items-center justify-center rounded mb-4">
-                    <Home className="mr-3" size={20} />
+                <div className="bg-blue-100 w-8 h- flex items-center justify-center rounded-3xl mb-4">
+                    <Hospital className="p-1" size={30} />
                   </div>
                   
                   <h3 className="text-[18px] font-semibold text-[#265B80]">Medical Aid for Victims</h3>
@@ -69,8 +69,8 @@ export default function Impact() {
                 </div>
                 
                 <div className="bg-blue-50 p-6 rounded-lg">
-                  <div className="bg-blue-100 w-8 h-8 flex items-center justify-center rounded mb-4">
-                  <Home className="mr-3" size={20} />
+                <div className="bg-blue-100 w-8 h- flex items-center justify-center rounded-3xl mb-4">
+                    <SquareActivity className="p-1" size={30} />
                   </div>
                   
                   <h3 className="text-[18px] font-semibold text-[#265B80]">Clean Air Initiatives</h3>
