@@ -28,7 +28,7 @@ export default function Product() {
             {/* Air Purifier */}
              <div className="border border-gray-200  overflow-hidden bg-[#eaebec]">
               <div className="h-64 bg-white flex items-center justify-center rounded-lg m-4">
-                <img src="/images/images.jpeg" alt="air purifier" className="max-h-full w-100 object-contain" />
+                <img src="/images/productimg1.png" alt="air purifier" className="max-h-full w-100 object-contain" />
               </div>
               <div className="p-6">
                 <h2 className="text-xl font-semibold text-[#265B80] mb-2">Air Purifier</h2>
@@ -44,7 +44,7 @@ export default function Product() {
             {/* Face Masks */}
             <div className="border border-gray-200  overflow-hidden bg-[#eaebec]">
               <div className="h-64 bg-white flex items-center justify-center rounded-lg m-4">
-                <img src="images/images.jpeg" alt="Face mask with respirator valve" className="max-h-full w-100 object-contain" />
+                <img src="images/productimg2.png" alt="Face mask with respirator valve" className="max-h-full w-100 object-contain" />
               </div>
               <div className="p-6">
                 <h2 className="text-xl font-semibold text-[#265B80] mb-2">Face Masks</h2>
@@ -63,7 +63,7 @@ export default function Product() {
             {/* Leviot Air Purifier */}
             <div className="border border-gray-200  overflow-hidden bg-[#eaebec]">
               <div className="h-64 bg-white flex items-center justify-center rounded-lg m-4">
-                <img src="images/images.jpeg" alt="Leviot air purifier" className="max-h-full w-100 object-contain" />
+                <img src="images/productimg3.png" alt="Leviot air purifier" className="max-h-full w-100 object-contain" />
               </div>
               <div className="p-6">
                 <h2 className="text-xl font-semibold text-[#265B80] mb-2">Leviot Air Purifier</h2>
@@ -79,7 +79,7 @@ export default function Product() {
             {/* Air Quality Monitor */}
             <div className="border border-gray-200  overflow-hidden bg-[#eaebec]">
               <div className="h-64 bg-white flex items-center justify-center rounded-lg m-4">
-                <img src="images/images.jpeg" alt="Air quality monitor on wooden table" className="max-h-full w-100 object-contain" />
+                <img src="images/productimg4.png" alt="Air quality monitor on wooden table" className="max-h-full w-100 object-contain" />
               </div>
               <div className="p-6">
                 <h2 className="text-xl font-semibold text-[#265B80] mb-2">Air Quality Monitor</h2>

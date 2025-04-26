@@ -104,7 +104,7 @@ export default function Impact() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-30 ">
             <div className="bg-white rounded-lg overflow-hidden shadow">
               <img 
-                src="/images/images.jpeg" 
+                src="/images/impactimg1.png" 
                 alt="Factory pollution" 
                 className="w-full h-48 object-cover"
               />
@@ -127,7 +127,7 @@ export default function Impact() {
             
             <div className="bg-white rounded-lg overflow-hidden shadow">
               <img 
-                src="images/images.jpeg" 
+                src="images/impactimg2.png" 
                 alt="Woman wearing mask" 
                 className="w-full h-48 object-cover"
               />
@@ -150,7 +150,7 @@ export default function Impact() {
             
             <div className="bg-white rounded-lg overflow-hidden shadow">
               <img 
-                src="images/images.jpeg" 
+                src="images/impactimg3.png" 
                 alt="Air quality index chart" 
                 className="w-full h-48 object-cover"
               />
@@ -173,7 +173,7 @@ export default function Impact() {
             
             <div className="bg-white rounded-lg overflow-hidden shadow">
               <img 
-                src="images/images.jpeg" 
+                src="images/impactimg4.png" 
                 alt="Chest X-ray" 
                 className="w-full h-48 object-cover"
               />

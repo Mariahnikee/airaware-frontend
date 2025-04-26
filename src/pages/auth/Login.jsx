@@ -64,11 +64,11 @@ function Login() {
             </button>
           </form>
           <p className="mt-4">
-            Don't have an account?{" "}
-            <span className="font-medium text-[#265B80]">Register here
-              
-            </span>
-          </p>
+                     Don't have an account?{" "}
+                     <Link to="/signup " className="text-[#1E4866] font-medium">
+                       Register here
+                     </Link>
+                   </p>
           <p className="font-medium text-[#265B80]">Forgot password?</p>
         </div>
         <div className="w-1/2 flex items-center justify-center">
