@@ -36,13 +36,13 @@ function Header() {
             <Link to="/">Home</Link>
           </li>
           <li className="text-[#1E4866] hover:text-blue-900 py-2 md:py-0">
-            <Link to="#">How It Works</Link>
-          </li>
-          <li className="text-[#1E4866] hover:text-blue-900 py-2 md:py-0">
             <Link to="/products">Products</Link>
           </li>
           <li className="text-[#1E4866] hover:text-blue-900 py-2 md:py-0">
             <Link to="/impact">Impact</Link>
+          </li>
+          <li className="text-[#1E4866] hover:text-blue-900 py-2 md:py-0">
+            <Link to="#">How It Works</Link>
           </li>
         </ul>
       </nav>

@@ -52,7 +52,7 @@ function Home() {
 
       {/* How It Works Section */}
       <section className="how-it-works">
-        <div className="flex flex-col justify-center items-center gap-8 mx-auto py-12 md:py-20 px-4 md:px-8 lg:px-20">
+        <div className="flex flex-col justify-center items-center gap-8 mx-auto py-4 md:py-20 px-4 md:px-8 lg:px-20">
           <div className="flex flex-col md:flex-row justify-center md:items-end gap-6 md:gap-16 self-stretch">
             <h2 className="flex-1 text-[#265B80] font-poppins text-2xl md:text-3xl lg:text-4xl font-semibold leading-snug">
               A simple and seamless experience
@@ -116,8 +116,8 @@ function Home() {
       </section>
 
       {/* Real-Time Air Quality Section */}
-      <section className="real-time-air bg-white relative overflow-hidden my-10 py-25 ">
-        <div className="flex flex-col md:flex-row py-12 md:py-20 px-4 md:px-8 lg:px-20 items-center gap-8 relative z-10">
+      <section className="real-time-air bg-white relative overflow-hidden my:0 md:my-10 md:py-25 ">
+        <div className="flex flex-col md:flex-row py-4 md:py-20 mt-14 px-4 md:px-8 lg:px-20 items-center gap-8 relative z-10">
           <div className="flex w-full md:max-w-[576px] flex-col items-start gap-6 md:gap-8">
             <span className="bg-[#88C6A1] text-white rounded-3xl py-1 px-4 md:px-6 text-sm items-center justify-center">
               Features
@@ -157,8 +157,8 @@ function Home() {
             <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold text-center self-stretch text-[#265B80] font-poppins">
               Stay Safe with Personalized Health Alerts
             </h2>
-            <p className="text-[#1E4866] text-center text-sm md:text-base">
-              Air Aware doesn't just show you air quality data — it helps you
+            <p className="self-stretch text-[#265B80] text-center font-inter font-normal text-sm md:text-base leading-tight px-2">
+              Air Aware doesn't just show you air quality data, it helps you
               act on it. Receive tailored health alerts based on pollution
               levels, your location, and personal health conditions like asthma
               or allergies.
@@ -176,43 +176,43 @@ function Home() {
       </section>
 
       {/* Pollupop Section */}
-      <section className="pollupop relative overflow-hidden my-16 md:py-16">
-        {/* Background Image Covering Left Side of Screen */}
-        <div className="absolute inset-y-0 left-0 w-screen md:w-[65vw] lg:w-[55vw] z-0">
-          <div className=" md:absolute md:right-0 md:top-1/2 md:transform md:-translate-y-1/2  w-full h-full bg-[#F8FAFC] rounded-r-3xl overflow-hidden">
-            <img
-              src="../images/pollupop.png"
-              alt="Pollipop Game"
-              className="w-full h-full object-cover"
-            />
-          </div>
-        </div>
+      <section className="pollupop relative overflow-hidden my-12 md:py-16">
+  {/* Image container - modified for better mobile display */}
+  <div className="absolute inset-y-0 left-0 w-full md:w-[65vw] lg:w-[55vw] z-0">
+    <div className="relative md:absolute md:right-0 md:top-1/2 md:transform md:-translate-y-1/2 w-full h-64 md:h-full bg-[#F8FAFC] rounded-r-3xl overflow-hidden">
+      <img
+        src="../images/pollupop.png"
+        alt="Pollipop Game"
+        className="w-full h-full object-cover"
+      />
+    </div>
+  </div>
+  
+  {/* Content Wrapper */}
+  <div className="relative z-10 flex flex-col md:flex-row py-12 pt-72 md:pt-12 md:py-20 px-4 md:px-8 lg:px-20 items-center gap-8">
+    {/* Spacer to accommodate image */}
+    <div className="hidden md:block w-full md:w-[60%] lg:w-[50%]"></div>
 
-        {/* Content Wrapper */}
-        <div className="relative z-10 flex flex-col md:flex-row py-12 md:py-20 px-4 md:px-8 lg:px-20 items-center gap-8">
-          {/* Spacer to accommodate image */}
-          <div className="hidden md:block w-full md:w-[60%] lg:w-[50%]"></div>
+    {/* Text Content */}
+    <div className="flex w-full md:max-w-[576px] flex-col items-start ml-0 md:ml-30 gap-4 md:gap-8">
+      <span className="bg-[#88C6A1] text-white rounded-3xl py-1 px-4 md:px-6 text-sm items-center justify-center">
+        Features
+      </span>
+      <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold self-stretch text-[#265B80] font-poppins">
+        Learn About Air Quality the Fun Way
+      </h2>
+      <p className="text-[#1E4866] self-stretch text-sm md:text-base">
+        Pollution awareness doesn't have to be boring! Play the Pollipop
+        game — an engaging way to learn about different air pollutants,
+        their sources, and how to avoid them. Test your knowledge and
+        challenge friends!
+      </p>
+    </div>
+  </div>
+  </section>
 
-          {/* Text Content */}
-          <div className="flex w-full md:max-w-[576px] flex-col items-start ml-30 md:gap-8 ">
-            <span className="bg-[#88C6A1] text-white rounded-3xl py-1 px-4 md:px-6 text-sm items-center justify-center">
-              Features
-            </span>
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-semibold self-stretch text-[#265B80] font-poppins">
-              Learn About Air Quality the Fun Way
-            </h2>
-            <p className="text-[#1E4866] self-stretch text-sm md:text-base">
-              Pollution awareness doesn't have to be boring! Play the Pollipop
-              game — an engaging way to learn about different air pollutants,
-              their sources, and how to avoid them. Test your knowledge and
-              challenge friends!
-            </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section className="testimonials overflow-hidden mt-20">
+     {/* Testimonials Section */}
+     <section className="testimonials overflow-hidden mt-20">
         <div className="flex py-4 px-0 flex-col items-center gap-8 md:gap-14">
           <div className="flex flex-col items-center gap-4 md:gap-8 self-stretch px-4">
             <span className="bg-[#88C6A1] text-white rounded-3xl py-1 px-4 md:px-6 text-sm items-center justify-center">
@@ -321,6 +321,94 @@ function Home() {
                   </p>
                 </div>
               </div>
+
+               {/* Testimonial 5 */}
+              <div className="flex flex-col justify-between bg-[#F7F9FC] min-w-[80%] sm:min-w-[300px] md:w-[400px] h-auto md:h-[260px] rounded-2xl border border-[#EEF2F7] p-4 md:p-5 snap-start">
+                <p className="text-[#1E4866] text-sm md:text-base">
+                  Air Aware has completely changed how I manage my asthma. I
+                  used to have frequent attacks because I had no idea when air
+                  quality was bad. Now, I get real-time updates and health
+                  recommendations, helping me avoid triggers. It's a lifesaver!
+                </p>
+                <div className="mt-4">
+                  <p className="font-medium text-[#265B80] font-poppins text-sm md:text-base">
+                    Perculiar., Abuja, Nigeria
+                  </p>
+                  <p className="text-sm text-[#FFD23F]">
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                  </p>
+                </div>
+              </div>
+
+              {/* Testimonial 6 */}
+              <div className="flex flex-col justify-between bg-[#F7F9FC] min-w-[80%] sm:min-w-[300px] md:w-[400px] h-auto md:h-[260px] rounded-2xl border border-[#EEF2F7] p-4 md:p-5 snap-start">
+                <p className="text-[#1E4866] text-sm md:text-base">
+                  As a mother, I worry about my kids breathing polluted air.
+                  With Air Aware, I can check air quality before letting them
+                  play outside. The alerts and tips give me peace of mind.
+                </p>
+                <div className="mt-4">
+                  <p className="font-medium text-[#265B80] font-poppins text-sm md:text-base">
+                    Anneclaire., Lagos
+                  </p>
+                  <p className="text-sm text-[#FFD23F]">
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                  </p>
+                </div>
+              </div>
+
+              {/* Testimonial 7 */}
+              <div className="flex flex-col justify-between bg-[#F7F9FC] min-w-[80%] sm:min-w-[300px] md:w-[400px] h-auto md:h-[260px] rounded-2xl border border-[#EEF2F7] p-4 md:p-5 snap-start">
+                <p className="text-[#1E4866] text-sm md:text-base">
+                  I work in construction, and air pollution is a constant
+                  challenge. Air Aware helps me plan my workdays by alerting me
+                  when air quality is poor. I even got a high-quality face mask
+                  from their shop. Highly recommend it!
+                </p>
+                <div className="mt-4">
+                  <p className="font-medium text-[#265B80] font-poppins text-sm md:text-base">
+                    Seyi K., Portharcort, Nigeria
+                  </p>
+                  <p className="text-sm text-[#FFD23F]">
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStarHalfStroke} />
+                  </p>
+                </div>
+              </div>
+
+              {/* Testimonial 8 */}
+              <div className="flex flex-col justify-between bg-[#F7F9FC] min-w-[80%] sm:min-w-[300px] md:w-[400px] h-auto md:h-[260px] rounded-2xl border border-[#EEF2F7] p-4 md:p-5 snap-start">
+                <p className="text-[#1E4866] text-sm md:text-base">
+                  As someone with asthma, I used to struggle with sudden attacks
+                  due to poor air quality. Air Aware alerts me when the air is
+                  unsafe, helping me avoid triggers and breathe easier. It has
+                  truly improved my daily life!
+                </p>
+                <div className="mt-4">
+                  <p className="font-medium text-[#265B80] font-poppins text-sm md:text-base">
+                    Ajibola O., Lagos, Nigeria
+                  </p>
+                  <p className="text-sm text-[#FFD23F]">
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                    <FontAwesomeIcon icon={faStar} />
+                  </p>
+                </div>
+              </div>
+
             </div>
           </div>
 
@@ -334,32 +422,33 @@ function Home() {
         </div>
 
         <style jsx>{`
-          @media (min-width: 768px) {
-            @keyframes scroll {
-              0% {
-                transform: translateX(0);
-              }
-              100% {
-                transform: translateX(
-                  calc(-400px * 4 - 2rem * 3)
-                ); /* Width of 4 testimonials + 3 gaps */
-              }
-            }
+  @media (min-width: 768px) {
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(calc(-400px * 6 - 2rem * 5)); /* Width of all testimonials + all gaps */
+      }
+    }
 
-            .testimonial-slider {
-              animation: scroll 30s linear infinite;
-            }
+    .testimonial-slider {
+      width: fit-content;
+      display: flex;
+      animation: scroll 35s linear infinite;
+      will-change: transform;
+    }
 
-            .testimonial-slider:hover {
-              animation-play-state: paused;
-            }
-          }
+    .testimonial-slider:hover {
+      animation-play-state: paused;
+    }
+  }
 
-          /* Hide scrollbar */
-          .testimonial-slider::-webkit-scrollbar {
-            display: none;
-          }
-        `}</style>
+  /* Hide scrollbar */
+  .testimonial-slider::-webkit-scrollbar {
+    display: none;
+  }
+`}</style>
       </section>
 
       {/* FAQ Section */}
