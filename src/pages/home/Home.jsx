@@ -257,6 +257,8 @@ function Home() {
                 </div>
               </div>
 
+              
+
               {/* Testimonial 2 */}
               <div className="flex flex-col justify-between bg-[#F7F9FC] min-w-[80%] sm:min-w-[300px] md:w-[400px] h-auto md:h-[260px] rounded-2xl border border-[#EEF2F7] p-4 md:p-5 snap-start">
                 <p className="text-[#1E4866] text-sm md:text-base">
@@ -421,7 +423,7 @@ function Home() {
           </div>
         </div>
 
-        <style jsx>{`
+      <style jsx>{`
   @media (min-width: 768px) {
     @keyframes scroll {
       0% {
