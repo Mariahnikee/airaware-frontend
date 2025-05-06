@@ -4,7 +4,7 @@ import { Home, Compass, Settings } from "lucide-react";
 
 function SideNav() {
   return (
-    <div className="w-[200px] flex-shrink-0 pt-7 bg-white items-center gap-10 flex flex-col">
+    <div className="w-[200px] flex-shrink-0 pt-7 bg-white items-center gap-10 flex flex-col border-r border-gray-200/70">
       <div className="flex">
         <Link to="/">
           <img src="/logo.png" alt="Air Aware Logo" className="h-8 " />

@@ -1,4 +1,4 @@
-import { useState } from "react"; 
+import { useState } from "react";
 import LocationPopup from "../../popup/LocationPopup";
 import {
   MoreVertical,
@@ -19,13 +19,13 @@ export default function AirQtyDashbd() {
   const handleCloseModal = () => setShowModal(false);
 
   return (
-    <div className={`flex-1 flex flex-col overflow-hidden bg-[#FAFAFA] px-2 relative ${showModal ? "blur-sm" : ""}`}>
+    <div className="flex-1 flex flex-col overflow-hidden bg-[#FAFAFA] px-2 relative">
       {/* Top Navigation */}
-      <header className={`h-16 bg-[#FAFAFA] flex items-center justify-between px-6 pt-8 ${showModal }`}>
+      <header className="h-16 bg-[#FAFAFA] flex items-center justify-between px-6 pt-8">
         <div className="flex items-center">
-          <button onClick={handleOpenModal} className="hover:bg-gray-100 p-1 rounded">
+          
             <Grid2x2 size={18} className="mt-1 mx-2" />
-          </button>
+       
           <h1 className="text-[28px] font-[500] p-1 text-[#525252]">Home</h1>
         </div>
 
@@ -49,7 +49,7 @@ export default function AirQtyDashbd() {
       </header>
 
       {/* Main Content Area */}
-      <main className={`flex-1 overflow-y-auto p-6 mt-4 ${showModal }`}>
+      <main className="flex-1 overflow-y-auto p-6 mt-4">
         <p className="text-[32px] font-[500] text-[#525252] font-inter leading-[36px] pb-1">
           Welcome John!
         </p>
@@ -59,7 +59,7 @@ export default function AirQtyDashbd() {
         <h3 className="text-[#525252] font-inter text-[24px] font-medium leading-[36px]">
           Watchlists (0)
         </h3>
-        
+
         {/* Add Location Card */}
         <div className="flex bg-white rounded-[10px] w-[330px] h-[270px] flex-col justify-center items-center gap-6 mb-4">
           <div className="text-center">
@@ -116,14 +116,19 @@ export default function AirQtyDashbd() {
       </main>
 
       {/* Location Popup */}
-      {showModal && (
-        <div className="fixed inset-0 flex items-center justify-center z-50">
-          <div className="absolute inset-0 bg-black bg-opacity-30" onClick={handleCloseModal}></div>
-          <div className="relative z-50">
-            <LocationPopup onClose={handleCloseModal} />
-          </div>
-        </div>
-      )}
+     {showModal && (
+  <div className="fixed inset-0 z-50">
+    <div
+      className="absolute inset-0 bg-white/20
+ bg-opacity-10 backdrop-blur-sm"
+      onClick={handleCloseModal}
+    ></div>
+    <div className="flex items-center justify-center h-full relative z-50">
+      <LocationPopup onClose={handleCloseModal} />
+    </div>
+  </div>
+)}
+
     </div>
   );
 }

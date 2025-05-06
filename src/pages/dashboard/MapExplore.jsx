@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { MapPin, Search, Bell } from "lucide-react";
 import {
   MapContainer,
   TileLayer,
@@ -10,16 +11,8 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-
 delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon-2x.png",
-  iconUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.7.1/dist/images/marker-shadow.png",
-});
 
-// Custom hook to handle map resize
 function MapResizeHandler() {
   const map = useMap();
   useEffect(() => {
@@ -34,7 +27,6 @@ const MapExplore = () => {
   const center = [9.082, 8.6753];
   const zoomLevel = 6;
 
-  // Air quality monitoring stations with pollution data
   const locations = [
     {
       name: "Oktika, Rivers",
@@ -70,13 +62,13 @@ const MapExplore = () => {
         "Keep windows closed to avoid dirty outdoor air",
       ],
     },
-    // Add more monitoring stations as needed
   ];
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [activeTab, setActiveTab] = useState("details");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const [selectedLocations, setSelectedLocations] = useState([]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -91,63 +83,103 @@ const MapExplore = () => {
   );
 
   const getAqiColor = (aqi) => {
-    if (aqi >= 151) return "bg-red-600"; // Unhealthy
-    if (aqi >= 101) return "bg-yellow-500"; // Moderate
-    return "bg-green-500"; // Good
+    if (aqi >= 151) return "bg-red-600";
+    if (aqi >= 101) return "bg-yellow-500";
+    return "bg-green-500";
   };
 
+  const toggleLocation = (location) => {
+    if (selectedLocations.includes(location)) {
+      setSelectedLocations(
+        selectedLocations.filter((item) => item !== location)
+      );
+    } else {
+      setSelectedLocations([...selectedLocations, location]);
+    }
+  };
+
+  const popularLocations = [
+    { name: "Okrika, Rivers", region: "Rivers, Nigeria" },
+    { name: "Lasepa, Ikeja", region: "Lagos, Nigeria" },
+    { name: "Portharcourt", region: "Rivers, Nigeria" },
+    { name: "Abuja", region: "FCT, Nigeria" },
+    { name: "Fugar", region: "Edo, Nigeria" },
+    { name: "Apapa", region: "Lagos, Nigeria" },
+    { name: "Umundugba", region: "Imo, Nigeria" },
+  ];
+
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col w-screen h-screen overflow-hidden bg-[#fafafa] relative  px-10">
       {/* Header */}
-      <header className="bg-white shadow-sm px-4 py-3 flex items-center justify-between">
-        <h1 className="text-xl font-semibold text-gray-800 flex items-center">
-          <span className="text-green-600 mr-2">🌍</span>
-          Nigeria Air Quality Map
-        </h1>
-        <div className="flex items-center space-x-3">
+      <header className="h-16 bg-[#FAFAFA] flex items-center justify-between px-6 pt-8">
+        <div className="flex items-center">
+          <MapPin size={18} className="mt-1 mx-2" />
+
+          <h1 className="text-[28px] font-[500] p-1 text-[#525252]">
+            Explore Air Quality Map
+          </h1>
+        </div>
+
+        <div className="flex items-center space-x-4">
           <button className="p-2 rounded-full hover:bg-gray-100">
-            <span className="text-gray-600">🔔</span>
+            <Search size={18} />
           </button>
-          <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-            <span className="text-green-700 font-medium">NG</span>
-          </div>
+
+          <button className="p-2 rounded-full hover:bg-gray-100">
+            <Bell size={18} />
+          </button>
+
+          <button className="h-8 w-8 rounded-full hover:bg-gray-100">
+            <img
+              src="/images/profilepic.png"
+              alt="profile picture"
+              className="h-8"
+            />
+          </button>
         </div>
       </header>
 
       {/* Search and Controls */}
-      <div className="px-4 py-3 bg-gray-50 border-b flex flex-col md:flex-row gap-3">
-        <div className="relative flex-1">
+      <div className="w-full bg-[#fafafa] flex flex-col md:flex-row gap-3  py-3">
+        <div className="relative flex-4">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <span className="text-gray-400">🔍</span>
+            <span className="text-gray-400">
+              <Search size={18} />
+            </span>
           </div>
           <input
             type="text"
-            placeholder="Search monitoring stations..."
-            className="block w-full px-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            placeholder="Search Location"
+            className="block w-full px-10 pr-3 py-2 border border-gray-300 rounded-lg bg-white placeholder-gray-500 "
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-1 gap-2">
           <button className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50">
             + Add Location
           </button>
-         
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col md:flex-row overflow-hidden">
-        {/* Map Container - Takes full width on mobile, 2/3 on desktop */}
+      <div className="flex flex-1 gap-10 border-none overflow-hidden ">
+        {/* Map Container */}
         <div
           className={`${
-            selectedLocation && !isMobile ? "w-full md:w-2/3" : "w-full"
-          } h-full relative`}
+            selectedLocation && !isMobile
+              ? "w-full md:w-2/3"
+              : "w-full md:w-1/2"
+          } h-full relative border border-[#c0baba]`}
         >
           <MapContainer
             center={center}
             zoom={zoomLevel}
-            style={{ height: "100%", width: "100%" }}
+            style={{
+              width: "100%",
+              height:
+                "calc(100vh - 112px)" /* 56px header + 56px search = 112px */,
+            }}
             zoomControl={false}
           >
             <MapResizeHandler />
@@ -202,158 +234,53 @@ const MapExplore = () => {
           </MapContainer>
         </div>
 
-        {/* Side Panel - Hidden on mobile unless location selected */}
-        {selectedLocation && (
+        {/* Locations List - Shows when no location is selected or on mobile */}
+        {(!selectedLocation || isMobile) && (
           <div
             className={`${
-              isMobile ? "absolute inset-0 bg-white z-10" : "w-1/3"
-            } flex flex-col border-l border-gray-200 h-full overflow-hidden`}
+              isMobile && selectedLocation ? "hidden" : "w-[15px] md:w-[500px]"
+            } p-4 bg-[#fafafa] h-full overflow-y-auto`}
           >
-            {isMobile && (
-              <button
-                onClick={() => setSelectedLocation(null)}
-                className="p-2 text-gray-500 hover:text-gray-700 absolute top-2 right-2 z-20"
-              >
-                ✕
-              </button>
-            )}
-
-            {/* Location Header */}
-            <div className="p-4 border-b border-gray-200">
-              <div className="flex justify-between items-start">
-                <div>
-                  <h2 className="text-xl font-bold text-gray-800">
-                    {selectedLocation.name}
-                  </h2>
-                  <div className="flex items-center mt-1">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs font-medium ${getAqiColor(
-                        selectedLocation.aqi
-                      )} text-white`}
-                    >
-                      {selectedLocation.status}
-                    </span>
-                    <span className="ml-2 text-sm text-gray-600">Nigeria</span>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <div className="text-3xl font-bold">
-                    {selectedLocation.aqi}
-                  </div>
-                  <div className="text-xs text-gray-500">AQI</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Tabs */}
-            <div className="flex border-b border-gray-200">
-              <button
-                className={`flex-1 py-3 text-sm font-medium ${
-                  activeTab === "details"
-                    ? "text-green-600 border-b-2 border-green-600"
-                    : "text-gray-500"
-                }`}
-                onClick={() => setActiveTab("details")}
-              >
-                Details
-              </button>
-              <button
-                className={`flex-1 py-3 text-sm font-medium ${
-                  activeTab === "trends"
-                    ? "text-green-600 border-b-2 border-green-600"
-                    : "text-gray-500"
-                }`}
-                onClick={() => setActiveTab("trends")}
-              >
-                Trends
-              </button>
-              <button
-                className={`flex-1 py-3 text-sm font-medium ${
-                  activeTab === "levels"
-                    ? "text-green-600 border-b-2 border-green-600"
-                    : "text-gray-500"
-                }`}
-                onClick={() => setActiveTab("levels")}
-              >
-                Levels
-              </button>
-            </div>
-
-            {/* Tab Content */}
-            <div className="flex-1 overflow-y-auto p-4">
-              {activeTab === "details" && (
-                <>
-                  <h3 className="font-medium text-gray-800 mb-3">Pollutants</h3>
-                  <div className="grid grid-cols-2 gap-3 mb-6">
-                    {selectedLocation.pollutants.map((pollutant, index) => (
-                      <div key={index} className="bg-gray-50 p-3 rounded-lg">
-                        <div className="text-sm text-gray-500">
-                          {pollutant.name}
-                        </div>
-                        <div className="text-lg font-semibold">
-                          {pollutant.value} {pollutant.unit}
-                        </div>
+            <div>
+            <button className="bg-[#265B80] justify-center items-center mr-4 border self-stretch rounded-lg bg-primary-300 h-11 px-4">All</button>
+            <button className="bg-[#fdfdfd] justify-center items-center gap-2 border self-stretch rounded-lg bg-primary-300 h-11 px-4">Cities</button>
+              <h3 className="text-md font-medium text-gray-700 mr-3 mb-3 mt-5">
+                Popular Locations
+              </h3>
+              <div className="space-y-3">
+                {popularLocations.map((location, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${ 
+                      selectedLocations.includes(location.name)
+                        ? "border-grey-200/50 bg-[#fafafa]"
+                        : "border-gray-200 hover:bg-[#868f95]"
+                    }`}
+                    onClick={() => toggleLocation(location.name)}
+                  >
+                    <input
+                      type=""
+                      checked={selectedLocations.includes(location.name)}
+                      onChange={() => toggleLocation(location.name)}
+                      className="h-5 w-5 text-green-500 rounded focus:ring-green-500 border-gray-300"
+                    />
+                    <div className="ml-3">
+                      <div className="text-sm font-medium text-gray-800">
+                        {location.name}
                       </div>
-                    ))}
+                      <div className="text-xs text-gray-500">
+                        {location.region}
+                      </div>
+                    </div>
                   </div>
-
-                  <h3 className="font-medium text-gray-800 mb-3">
-                    Stay Safe Tips
-                  </h3>
-                  <ul className="space-y-2">
-                    {selectedLocation.tips.map((tip, index) => (
-                      <li key={index} className="flex items-start">
-                        <span className="text-green-500 mr-2">•</span>
-                        <span className="text-gray-700">{tip}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              )}
-
-              {activeTab === "trends" && (
-                <div className="space-y-4">
-                  <h3 className="font-medium text-gray-800">
-                    Air Pollution Trends
-                  </h3>
-                  <div className="bg-gray-100 rounded-lg p-4 h-48 flex items-center justify-center">
-                    <p className="text-gray-500">
-                      Trend chart would appear here
-                    </p>
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-500 px-2">
-                    <span>Mar 01</span>
-                    <span>Mar 03</span>
-                    <span>Mar 05</span>
-                    <span>Mar 07</span>
-                  </div>
-                </div>
-              )}
-
-              {activeTab === "levels" && (
-                <div className="space-y-4">
-                  <h3 className="font-medium text-gray-800">
-                    Air Pollution Levels
-                  </h3>
-                  <div className="bg-gray-100 rounded-lg p-4 h-48 flex items-center justify-center">
-                    <p className="text-gray-500">
-                      Levels chart would appear here
-                    </p>
-                  </div>
-                  <div className="flex justify-between text-xs text-gray-500 px-2">
-                    <span>Mar 01</span>
-                    <span>Mar 03</span>
-                    <span>Mar 05</span>
-                    <span>Mar 07</span>
-                  </div>
-                </div>
-              )}
+                ))}
+              </div>
             </div>
           </div>
         )}
       </div>
 
-      {/* Bottom Navigation - Only show on mobile */}
+      {/* Bottom Navigation - Mobile only */}
       {isMobile && (
         <nav className="bg-white border-t flex justify-around py-2 md:hidden sticky bottom-0 z-20">
           <button className="p-2 text-gray-600 flex flex-col items-center">
