@@ -22,18 +22,18 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-  
+
     try {
       const response = await loginUser(formData);
-  
-      if (response.token) {
-        localStorage.setItem("token", response.token);
+
+      if (response?.data?.access_token) { // Access the token from response.data.access_token
+        localStorage.setItem("token", response.data.access_token);
         setSuccessMessage("Login successful!");
         setTimeout(() => {
           navigate("/dashboard/air-qty-dashbd");
         }, 1500);
       } else {
-        throw new Error("Login succeeded but token was not provided.");
+        throw new Error("Login succeeded but access token was not provided."); // Updated error message for clarity
       }
     } catch (error) {
       setError(error.message);

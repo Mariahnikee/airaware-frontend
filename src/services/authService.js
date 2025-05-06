@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_PREFIX = 'https://airaware-5.onrender.com'; 
+const API_PREFIX = 'https://airaware-5.onrender.com';
 
 export const signUpUser = async (userData) => {
   try {
@@ -23,14 +23,22 @@ export const signUpUser = async (userData) => {
 
 export const loginUser = async (userData) => {
   try {
-    console.log("Sending login request:", userData); // ✅ userData is in scope here
+    console.log("Sending login request:", userData);
 
-    const response = await axios.post(`${API_PREFIX}/login`, {
-      username: userData.username,
-      password: userData.password,
-    }, {
+    const params = new URLSearchParams();
+    params.append('grant_type', 'password'); // Assuming grant_type is always 'password' for login
+    params.append('username', userData.username);
+    params.append('password', userData.password);
+    // You might need to include scope, client_id, and client_secret here as well,
+    // if your backend requires them for this grant_type.
+    // Example:
+    // params.append('scope', 'your_scope');
+    // params.append('client_id', 'your_client_id');
+    // params.append('client_secret', 'your_client_secret');
+
+    const response = await axios.post(`${API_PREFIX}/login`, params.toString(), {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     });
 
@@ -45,4 +53,3 @@ export const loginUser = async (userData) => {
     );
   }
 };
-

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getAllLocations } from "../../services/LocationService"; 
 import { MapPin, Search, Bell } from "lucide-react";
 import {
   MapContainer,
@@ -14,6 +15,10 @@ import L from "leaflet";
 delete L.Icon.Default.prototype._getIconUrl;
 
 function MapResizeHandler() {
+  const [allLocations, setAllLocations] = useState([]);
+   const [showAllLocations, setShowAllLocations] = useState(false);
+
+
   const map = useMap();
   useEffect(() => {
     setTimeout(() => {
@@ -155,7 +160,8 @@ const MapExplore = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-        <div className="flex flex-1 gap-2">
+         {/* CTA Button */}
+        <div className="flex flex-1 gap-2">    
           <button className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50">
             + Add Location
           </button>
