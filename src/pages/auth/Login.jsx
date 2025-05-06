@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../services/AuthService";
 
 function Login() {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -22,10 +22,10 @@ function Login() {
     e.preventDefault();
     setLoading(true);
     setError(null);
-
+  
     try {
       const response = await loginUser(formData);
-
+  
       if (response.token) {
         localStorage.setItem("token", response.token);
         setSuccessMessage("Login successful!");
@@ -42,11 +42,12 @@ function Login() {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="flex min-h-screen items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
       <div className="p-4 sm:p-6 md:p-10 rounded-lg flex flex-col md:flex-row w-full sm:w-11/12 md:w-10/12 lg:w-3/4 max-w-8xl">
-        {/* Left Section */}
+      
         <div className="w-full md:w-1/2 md:pr-6 lg:pr-10 mb-8 md:mb-0">
           <img src="logo.png" alt="airaware logo" className="logo-size mb-4" />
           <h1 className="font-poppins text-2xl sm:text-3xl md:text-[40px] font-semibold leading-tight md:leading-[50px] text-[#1E4866]">
@@ -72,10 +73,10 @@ function Login() {
             <label htmlFor="email" className="mb-1 font-medium">Email address</label>
             <input
               type="email"
-              name="email"
-              id="email"
+              name="username"
+              id="username"
               placeholder="Enter your email"
-              value={formData.email}
+              value={formData.username}
               onChange={handleChange}
               className="w-full custom-input"
               required
@@ -116,7 +117,7 @@ function Login() {
           <p className="font-medium text-[#265B80] text-sm sm:text-base mt-2">Forgot password?</p>
         </div>
 
-        {/* Right Section */}
+        
         <div className="w-full md:w-1/2 flex items-center justify-center">
           <img
             src="signupimg.png"

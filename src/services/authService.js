@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = "https://airaware-5.onrender.com";
+const API_PREFIX = 'https://airaware-5.onrender.com'; 
 
 export const signUpUser = async (userData) => {
   try {
@@ -11,19 +11,38 @@ export const signUpUser = async (userData) => {
       password: userData.password,
     };
 
-    const response = await axios.post(`${API_BASE_URL}/register`, payload);
+    console.log("Sending signup request:", payload);
+    const response = await axios.post(`${API_PREFIX}/register`, payload);
+    console.log("Signup response:", response);
     return response.data;
   } catch (error) {
-    console.log('something went wrong');
+    console.error('Signup error:', error);
     throw error.response?.data?.detail || "Signup failed. Please try again.";
   }
 };
 
 export const loginUser = async (userData) => {
   try {
-    const response = await axios.post(`${API_BASE_URL}/login`, userData);  
-    return response.data;  
+    console.log("Sending login request:", userData); // ✅ userData is in scope here
+
+    const response = await axios.post(`${API_PREFIX}/login`, {
+      username: userData.username,
+      password: userData.password,
+    }, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Login response:", response);
+    return response.data;
   } catch (error) {
-    throw new Error(error.response?.data?.message || "Login failed. Please try again.");
+    console.error("Login error details:", error);
+    throw new Error(
+      error.response?.data?.message ||
+      error.response?.data?.detail?.[0]?.msg ||
+      "Login failed. Please try again."
+    );
   }
 };
+
