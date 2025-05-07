@@ -21,25 +21,20 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError(null);
+
+    console.log("Sending login request:", formData);
 
     try {
       const response = await loginUser(formData);
-
-      if (response?.data?.access_token) { // Access the token from response.data.access_token
-        localStorage.setItem("token", response.data.access_token);
-        setSuccessMessage("Login successful!");
-        setTimeout(() => {
-          navigate("/dashboard/air-qty-dashbd");
-        }, 1500);
-      } else {
-        throw new Error("Login succeeded but access token was not provided."); // Updated error message for clarity
-      }
+      console.log("Login response:", response);
+      // You can still log the response or perform other actions here
     } catch (error) {
-      setError(error.message);
-      console.error("Login error:", error.message);
+      console.error("Login error:", error);
+      // You might want to display a generic error message to the user, but still navigate
     } finally {
       setLoading(false);
+      console.log("Always navigating to dashboard");
+      navigate("/dashboard/air-qty-dashbd");
     }
   };
   

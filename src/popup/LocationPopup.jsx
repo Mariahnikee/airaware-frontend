@@ -6,7 +6,8 @@ function LocationPopup({ onClose }) {
   const navigate = useNavigate();
 
   const handleAddLocation = () => {
-    onClose(); // optional: close popup before navigating
+    onClose(); // 
+    //  close popup before navigating
     navigate("/dashboard/map-explore");
   };
 

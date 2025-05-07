@@ -12,6 +12,7 @@ import MainLayout from './components/layout/MainLayout';
 import DashboardLayout from './components/layout/DashboardLayout';
 import AirQtyDash from './pages/dashboard/AirQtyDashbd';
 import MapExplore from './pages/dashboard/MapExplore';
+import LasepaPopup from './pages/dashboard/LasepaPopup';
 import Notification from './pages/dashboard/settings/Notification';
 import Profile from './pages/dashboard/settings/Profile';
 import Privacy from './pages/dashboard/settings/Profile';
@@ -43,7 +44,7 @@ function App() {
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="/dashboard/air-qty-dashbd" element={<AirQtyDash />} />
           <Route path="/dashboard/map-explore" element={<MapExplore />} />
-
+          <Route path="/dashboard/lasepa-popup" element={<LasepaPopup />} />
           <Route path="settings/profile" element={<Privacy />} />
         </Route>
     

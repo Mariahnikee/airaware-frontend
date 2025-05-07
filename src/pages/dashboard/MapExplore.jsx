@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { getAllLocations } from "../../services/LocationService"; 
+import { Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+import { getAllLocations } from "../../services/LocationService";
+
 import { MapPin, Search, Bell } from "lucide-react";
 import {
   MapContainer,
@@ -14,10 +17,11 @@ import L from "leaflet";
 
 delete L.Icon.Default.prototype._getIconUrl;
 
+
 function MapResizeHandler() {
   const [allLocations, setAllLocations] = useState([]);
-   const [showAllLocations, setShowAllLocations] = useState(false);
-
+  const [showAllLocations, setShowAllLocations] = useState(false);
+  const navigate = useNavigate();
 
   const map = useMap();
   useEffect(() => {
@@ -32,48 +36,30 @@ const MapExplore = () => {
   const center = [9.082, 8.6753];
   const zoomLevel = 6;
 
-  const locations = [
-    {
-      name: "Oktika, Rivers",
-      position: [4.8156, 7.0498],
-      type: "monitoring",
-      aqi: 156,
-      status: "Unhealthy",
-      pollutants: [
-        { name: "PM2.5", value: 100.4, unit: "µg/m³" },
-        { name: "PM10", value: 143.9, unit: "µg/m³" },
-        { name: "NO2", value: 19.4, unit: "µg/m³" },
-        { name: "O3", value: 169, unit: "µg/m³" },
-      ],
-      tips: [
-        "Keep your inhaler handy and avoid heavy traffic areas",
-        "Avoid outdoor activities, especially strenuous exercises like jogging",
-      ],
-    },
-    {
-      name: "Lagos Mainland",
-      position: [6.5244, 3.3792],
-      type: "monitoring",
-      aqi: 98,
-      status: "Moderate",
-      pollutants: [
-        { name: "PM2.5", value: 65.2, unit: "µg/m³" },
-        { name: "PM10", value: 98.7, unit: "µg/m³" },
-        { name: "NO2", value: 24.1, unit: "µg/m³" },
-        { name: "O3", value: 112, unit: "µg/m³" },
-      ],
-      tips: [
-        "Sensitive groups should reduce prolonged outdoor exertion",
-        "Keep windows closed to avoid dirty outdoor air",
-      ],
-    },
-  ];
-
+  const [locations, setLocations] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [activeTab, setActiveTab] = useState("details");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [selectedLocations, setSelectedLocations] = useState([]);
+const [selectedLocations, setSelectedLocations] = useState([]);
+const navigate = useNavigate();  // <-- Define navigate first
+const handleAddLocationpage = () => {
+  navigate("/dashboard/lasepa-popup");
+};
+
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const data = await getAllLocations();
+        setLocations(data);
+      } catch (error) {
+        console.error("Failed to load locations:", error);
+      }
+    };
+
+    fetchLocations();
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -160,11 +146,11 @@ const MapExplore = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
         </div>
-         {/* CTA Button */}
-        <div className="flex flex-1 gap-2">    
-          <button className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50">
-            + Add Location
-          </button>
+        {/* CTA Button */}
+        <div className="flex flex-1 gap-2">
+        <button className="px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium hover:bg-gray-50 flex items-center gap-1"   onClick={handleAddLocationpage}>
+    <span>+</span> Add Location
+  </button>
         </div>
       </div>
 
@@ -183,8 +169,7 @@ const MapExplore = () => {
             zoom={zoomLevel}
             style={{
               width: "100%",
-              height:
-                "calc(100vh - 112px)" /* 56px header + 56px search = 112px */,
+              height: "calc(100vh - 112px)",
             }}
             zoomControl={false}
           >
@@ -240,7 +225,7 @@ const MapExplore = () => {
           </MapContainer>
         </div>
 
-        {/* Locations List - Shows when no location is selected or on mobile */}
+        {/* Locations List */}
         {(!selectedLocation || isMobile) && (
           <div
             className={`${
@@ -248,8 +233,12 @@ const MapExplore = () => {
             } p-4 bg-[#fafafa] h-full overflow-y-auto`}
           >
             <div>
-            <button className="bg-[#265B80] justify-center items-center mr-4 border self-stretch rounded-lg bg-primary-300 h-11 px-4">All</button>
-            <button className="bg-[#fdfdfd] justify-center items-center gap-2 border self-stretch rounded-lg bg-primary-300 h-11 px-4">Cities</button>
+              <button className="bg-[#265B80] justify-center items-center mr-4 border self-stretch rounded-lg bg-primary-300 h-11 px-4">
+                All
+              </button>
+              <button className="bg-[#fdfdfd] justify-center items-center gap-2 border self-stretch rounded-lg bg-primary-300 h-11 px-4">
+                Cities
+              </button>
               <h3 className="text-md font-medium text-gray-700 mr-3 mb-3 mt-5">
                 Popular Locations
               </h3>
@@ -257,7 +246,7 @@ const MapExplore = () => {
                 {popularLocations.map((location, index) => (
                   <div
                     key={index}
-                    className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${ 
+                    className={`flex items-center p-3 border rounded-lg cursor-pointer transition-colors ${
                       selectedLocations.includes(location.name)
                         ? "border-grey-200/50 bg-[#fafafa]"
                         : "border-gray-200 hover:bg-[#868f95]"

@@ -1,4 +1,6 @@
 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 my-2 p-4">
+
+  
 {locations.map((location, index) => (
   <div
     key={index}
