@@ -96,12 +96,18 @@ export default function AirQtyDashbd() {
               video explains AQI in simple terms so you can make informed health
               decisions.
             </p>
-            <button className="px-4 py-2 bg-[#265B80] text-white rounded hover:bg-blue transition">
+            <div className="flex gap-6">
+            <button className="px-4 py-2 bg-[#265B80] text-white rounded hover:bg-[#838f96]">
               Show me how
             </button>
+            <button className="px-4 py-2 rounded-[3px] border border-[#D3E2EC] text-[#1E4866] text-center hover:bg-[#838f96]">
+            Learn More
+            </button>
+            </div>
+            
           </div>
 
-          <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="bg-white shadow-sm p-6 rounded-[12px] bg-gradient-to-b from-[rgba(19,197,255,0.10)] to-[rgba(255,231,186,0.10)]">
             <h2 className="text-xl font-medium text-gray-800 my-6">
               Try the Pollupop Game!
             </h2>
@@ -109,7 +115,7 @@ export default function AirQtyDashbd() {
               Test your skills by bursting air pollutants while avoiding clean
               air bubbles. How high can you score?
             </p>
-            <button className="px-4 py-2 bg-[#265B80] text-white rounded hover:bg-blue transition">
+            <button className="px-4 py-2 rounded-[3px] border border-[#D3E2EC] text-[#1E4866] hover:bg-[#838f96]">
               Play Now
             </button>
           </div>

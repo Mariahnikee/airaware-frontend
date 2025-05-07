@@ -42,7 +42,7 @@ const MapExplore = () => {
   const [activeTab, setActiveTab] = useState("details");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 const [selectedLocations, setSelectedLocations] = useState([]);
-const navigate = useNavigate();  // <-- Define navigate first
+const navigate = useNavigate();  
 const handleAddLocationpage = () => {
   navigate("/dashboard/lasepa-popup");
 };
@@ -233,10 +233,10 @@ const handleAddLocationpage = () => {
             } p-4 bg-[#fafafa] h-full overflow-y-auto`}
           >
             <div>
-              <button className="bg-[#265B80] justify-center items-center mr-4 border self-stretch rounded-lg bg-primary-300 h-11 px-4">
+              <button className="bg-[#265B80] justify-center items-center mr-4 border self-stretch rounded-lg text-[#ffff] bg-primary-300 h-11 px-4">
                 All
               </button>
-              <button className="bg-[#fdfdfd] justify-center items-center gap-2 border self-stretch rounded-lg bg-primary-300 h-11 px-4">
+              <button className="bg-[#fdfdfd] justify-center items-center gap-2 border self-stretch rounded-lg border-[#1b425d] h-11 px-4 text-[#265B80]">
                 Cities
               </button>
               <h3 className="text-md font-medium text-gray-700 mr-3 mb-3 mt-5">

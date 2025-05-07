@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react"; // If using Lucide for icons (optional)
+import { Menu, X } from "lucide-react"; 
 
 function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,7 +42,7 @@ function Header() {
             <Link to="/impact">Impact</Link>
           </li>
           <li className="text-[#1E4866] hover:text-blue-900 py-2 md:py-0">
-            <Link to="#">How It Works</Link>
+            <Link to="/">How It Works</Link>
           </li>
         </ul>
       </nav>
