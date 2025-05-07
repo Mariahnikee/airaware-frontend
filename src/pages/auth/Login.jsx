@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../services/AuthService"; // Correct import path
+import { loginUser } from "../../services/AuthService"; 
 
 function Login() {
   const [formData, setFormData] = useState({ username: "", password: "" });

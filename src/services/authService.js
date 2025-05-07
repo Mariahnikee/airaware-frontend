@@ -26,16 +26,10 @@ export const loginUser = async (userData) => {
     console.log("Sending login request:", userData);
 
     const params = new URLSearchParams();
-    params.append('grant_type', 'password'); // Assuming grant_type is always 'password' for login
+    params.append('grant_type', 'password'); 
     params.append('username', userData.username);
     params.append('password', userData.password);
-    // You might need to include scope, client_id, and client_secret here as well,
-    // if your backend requires them for this grant_type.
-    // Example:
-    // params.append('scope', 'your_scope');
-    // params.append('client_id', 'your_client_id');
-    // params.append('client_secret', 'your_client_secret');
-
+  
     const response = await axios.post(`${API_PREFIX}/login`, params.toString(), {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
