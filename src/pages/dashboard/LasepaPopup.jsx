@@ -201,10 +201,10 @@ export default function AirQualityDashboard() {
           </div>
           
           <div className="flex gap-3">
-            <button className="bg-white border border-blue-600 text-blue-600 px-4 py-2 rounded font-medium flex items-center">
+            <button className="bg-white border border-blue-600 text-[#265B80] px-4 py-2 rounded font-medium flex items-center">
               <Plus size={18} className="mr-1" /> Add Location
             </button>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded font-medium flex items-center">
+            <button className="bg-[#265B80] text-white px-4 py-2 rounded font-medium flex items-center">
               <Download size={18} className="mr-1" /> Download Data
             </button>
           </div>

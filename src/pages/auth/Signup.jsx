@@ -1,4 +1,4 @@
-import { signUpUser } from "../../services/AuthService";
+import { signUpUser } from "../../services/Auth";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
