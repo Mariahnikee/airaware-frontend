@@ -1,356 +1,369 @@
-import React from "react";
-import { Download, Plus ,MoreVertical} from "lucide-react";
+import { useState, useEffect, useRef } from 'react'
+import { LineChart, BarChart, Bar, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from 'recharts'
+import { X, Plus, Download } from 'lucide-react'
 
-const LasapaPopup = () => {
+export default function AirQualityDashboard() {
+  const [aqi, setAqi] = useState(156)
+  const [pm25, setPm25] = useState(100.4)
+  const [pm10, setPm10] = useState(143.9)
+  const [no2, setNo2] = useState(19.4)
+  const [o3, setO3] = useState(169)
+  const [airQualityStatus, setAirQualityStatus] = useState('Unhealthy')
+  const [statusColor, setStatusColor] = useState('#dc2f02')
+  const [currentTip, setCurrentTip] = useState(0)
+  const [trendsData, setTrendsData] = useState([])
+  const [levelsData, setLevelsData] = useState([])
+  const needleRef = useRef(null)
+
+  // Safety tips based on AQI level
+  const safetyTips = [
+    "Keep your inhaler handy and avoid heavy traffic areas",
+    "Wear a mask when going outside to reduce pollutant exposure",
+    "Stay indoors and keep windows closed when AQI is high",
+    "Use air purifiers indoors to reduce indoor pollution",
+    "Monitor air quality before planning outdoor activities",
+    "Limit outdoor exercise during high pollution periods",
+    "Consider telecommuting when air quality is poor",
+    "Stay hydrated to help your body process pollutants",
+    "Avoid burning candles or incense indoors during poor air quality days",
+    "Consider using public transportation to reduce overall emissions"
+  ]
+
+  // Utility functions
+  const getRandomNumber = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  }
+
+  const getRandomAQI = () => {
+    // Weighted towards unhealthy values for dramatic effect
+    const weights = [
+      { range: [0, 50], weight: 5 },       // Good
+      { range: [51, 100], weight: 15 },    // Moderate
+      { range: [101, 150], weight: 35 },   // Unhealthy for Sensitive Groups
+      { range: [151, 200], weight: 25 },   // Unhealthy
+      { range: [201, 300], weight: 15 },   // Very Unhealthy
+      { range: [301, 500], weight: 5 }     // Hazardous
+    ]
+    
+    const totalWeight = weights.reduce((sum, item) => sum + item.weight, 0)
+    let random = Math.random() * totalWeight
+    
+    for (const item of weights) {
+      random -= item.weight
+      if (random <= 0) {
+        return getRandomNumber(item.range[0], item.range[1])
+      }
+    }
+    
+    return getRandomNumber(0, 500)
+  }
+
+  const getStatusByAQI = (aqi) => {
+    if (aqi <= 50) return { text: 'Good', color: '#43aa8b' }
+    else if (aqi <= 100) return { text: 'Moderate', color: '#ffba08' }
+    else if (aqi <= 150) return { text: 'Unhealthy for Sensitive Groups', color: '#e85d04' }
+    else if (aqi <= 200) return { text: 'Unhealthy', color: '#dc2f02' }
+    else if (aqi <= 300) return { text: 'Very Unhealthy', color: '#9d0208' }
+    else return { text: 'Hazardous', color: '#6a040f' }
+  }
+
+  const updateNeedlePosition = (aqiValue) => {
+    // Convert AQI to angle (0-180 degrees)
+    // 0 AQI = 180 degrees (leftmost)
+    // 500 AQI = 0 degrees (rightmost)
+    if (needleRef.current) {
+      const angle = 180 - (aqiValue / 500 * 180)
+      needleRef.current.style.transform = `rotate(${angle}deg)`
+    }
+  }
+
+  // Generate dates for last 7 days
+  const generateDates = () => {
+    return Array.from({ length: 7 }, (_, i) => {
+      const date = new Date()
+      date.setDate(date.getDate() - (6 - i))
+      return `Mar ${date.getDate().toString().padStart(2, '0')}`
+    })
+  }
+  
+  const dates = generateDates()
+
+  // Initialize dashboard with random data
+  const initializeDashboard = () => {
+    const initialTrendsData = []
+    const initialLevelsData = []
+
+    // Generate initial data for trends chart
+    for (let i = 0; i < 7; i++) {
+      const randomAqi = getRandomAQI()
+      initialTrendsData.push({
+        date: dates[i],
+        value: randomAqi
+      })
+
+      // Generate initial data for levels chart
+      const status = getStatusByAQI(randomAqi)
+      initialLevelsData.push({
+        date: dates[i],
+        green: status.text === 'Good' ? randomAqi : 0,
+        yellow: status.text === 'Moderate' ? randomAqi : 0, 
+        orange: status.text === 'Unhealthy for Sensitive Groups' ? randomAqi : 0,
+        red: (status.text === 'Unhealthy' || status.text === 'Very Unhealthy' || status.text === 'Hazardous') ? randomAqi : 0
+      })
+    }
+
+    setTrendsData(initialTrendsData)
+    setLevelsData(initialLevelsData)
+  }
+
+  // Update dashboard with new values
+  const updateDashboard = () => {
+    // Generate new AQI value
+    const newAqi = getRandomAQI()
+    const newPm25 = parseFloat((newAqi * 0.65).toFixed(1))
+    const newPm10 = parseFloat((newAqi * 0.9 + getRandomNumber(-20, 20)).toFixed(1))
+    const newNo2 = parseFloat((newAqi * 0.12 + getRandomNumber(-5, 10)).toFixed(1))
+    const newO3 = parseFloat((newAqi * 1.1 + getRandomNumber(-10, 30)).toFixed(1))
+    
+    // Update state values
+    setAqi(newAqi)
+    setPm25(newPm25)
+    setPm10(newPm10)
+    setNo2(newNo2)
+    setO3(newO3)
+    
+    // Update needle position
+    updateNeedlePosition(newAqi)
+    
+    // Update status
+    const status = getStatusByAQI(newAqi)
+    setAirQualityStatus(status.text)
+    setStatusColor(status.color)
+    
+    // Update random safety tip
+    setCurrentTip(getRandomNumber(0, safetyTips.length - 1))
+    
+    // Update trends chart data
+    setTrendsData(prevData => {
+      const newData = [...prevData]
+      newData.shift() // Remove first element
+      
+      // Add new data point
+      newData.push({
+        date: dates[dates.length - 1],
+        value: newAqi
+      })
+      
+      return newData
+    })
+    
+    // Update levels chart data
+    setLevelsData(prevData => {
+      const newData = [...prevData]
+      newData.shift() // Remove first element
+      
+      const newStatus = getStatusByAQI(newAqi)
+      
+      // Add new data point
+      newData.push({
+        date: dates[dates.length - 1],
+        green: newStatus.text === 'Good' ? newAqi : 0,
+        yellow: newStatus.text === 'Moderate' ? newAqi : 0,
+        orange: newStatus.text === 'Unhealthy for Sensitive Groups' ? newAqi : 0,
+        red: (newStatus.text === 'Unhealthy' || newStatus.text === 'Very Unhealthy' || newStatus.text === 'Hazardous') ? newAqi : 0
+      })
+      
+      return newData
+    })
+  }
+
+  // Initialize dashboard on component mount
+  useEffect(() => {
+    initializeDashboard()
+    
+    // Set initial needle position
+    updateNeedlePosition(aqi)
+    
+    // Update dashboard every 5 seconds
+    const interval = setInterval(updateDashboard, 5000)
+    
+    return () => clearInterval(interval)
+  }, [])
+
   return (
-    <div className="w-full max-w-5xl bg-[#fafafa] rounded-xl shadow-lg overflow-hidden">
-      {/* Header */}
-     
-
-
-      <div className="px-6 p-4  flex justify-between items-center ">
-     
-        <div className="flex items-center">
-          <div className="flex h-9 px-4 py-2 items-center gap-2 rounded-md bg-gray-50">
-            Daily
+    <div className="bg-gray-50 min-h-screen">
+      <div className="max-w-6xl mx-auto p-4">
+        <div className="flex justify-between items-center mb-5">
+          <div className="relative">
+            <button className="bg-white border border-gray-200 px-4 py-2 rounded flex items-center font-medium">
+              Daily <span className="ml-2">▼</span>
+            </button>
           </div>
-          <div className="ml-2">
-            <svg
-              className="w-4 h-4 text-gray-600"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
-          </div>
-        </div>
-        <div className="flex items-center space-x-3">
-          <button className="flex h-11 px-4 py-3 justify-center items-center gap-2 rounded-sm border border-blue-100 hover:bg-blue-50 transition-colors">
-            <Plus size={16} className="mr-2" />
-            <span>Add Location</span>
-          </button>
-          <button className="flex h-11 px-4 bg-[#265B80] py-3 justify-center items-center gap-2 rounded-sm border border-blue-100 hover:bg-blue-800 transition-colors">
-            <Download size={16} className="mr-2" />
-            <span>Download Data</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 p-4">
-        {/* AQI Section */}
-        
-        <div className="bg-white p-6 rounded-lg border border-[#fff]">
-
-          <div className="flex justify-center mb-4">
-            <div className="relative">
-              <svg className="w-36 h-36" viewBox="0 0 120 120">
-                {/* AQI Gauge Background */}
-                <path
-                  d="M10,60 a50,50 0 1,1 100,0 a50,50 0 1,1 -100,0"
-                  fill="none"
-                  stroke="#e5e7eb"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-
-                {/* Green segment */}
-                <path
-                  d="M10,60 a50,50 0 0,1 25,-43.3"
-                  fill="none"
-                  stroke="#4ade80"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-
-                {/* Yellow segment */}
-                <path
-                  d="M35,16.7 a50,50 0 0,1 25,0"
-                  fill="none"
-                  stroke="#facc15"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-
-                {/* Orange segment */}
-                <path
-                  d="M60,16.7 a50,50 0 0,1 25,0"
-                  fill="none"
-                  stroke="#fb923c"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-
-                {/* Red segment - highlight this as we're in "Unhealthy" range */}
-                <path
-                  d="M85,16.7 a50,50 0 0,1 25,43.3"
-                  fill="none"
-                  stroke="#ef4444"
-                  strokeWidth="12"
-                  strokeLinecap="round"
-                />
-
-                {/* Indicator needle */}
-                <line
-                  x1="60"
-                  y1="60"
-                  x2="95"
-                  y2="35"
-                  stroke="#374151"
-                  strokeWidth="2"
-                />
-                <circle cx="60" cy="60" r="5" fill="#374151" />
-              </svg>
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <div className="text-3xl font-bold">156</div>
-                <div className="text-sm text-gray-500">AQI</div>
-              </div>
-            </div>
-          </div>
-
           
-         </div>
-
-
-
-        {/* Pollutants Section */}
-        <div className="bg-white p-6 rounded-lg border">
-          <h3 className="font-bold text-gray-800 mb-6">Pollutants</h3>
-
-          <div className="space-y-4">
-            {/* PM2.5 */}
-            <div>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-500">PM2.5 μg/m³</span>
-                <span className="font-semibold">100.4</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-red-500 h-2 rounded-full"
-                  style={{ width: "75%" }}
-                ></div>
-              </div>
-            </div>
-
-            {/* PM10 */}
-            <div>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-500">PM10 μg/m³</span>
-                <span className="font-semibold">143.9</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-orange-300 h-2 rounded-full"
-                  style={{ width: "60%" }}
-                ></div>
-              </div>
-            </div>
-
-            {/* NO2 */}
-            <div>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-500">NO2 μg/m³</span>
-                <span className="font-semibold">19.4</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-yellow-400 h-2 rounded-full"
-                  style={{ width: "30%" }}
-                ></div>
-              </div>
-            </div>
-
-            {/* O3 */}
-            <div>
-              <div className="flex justify-between text-sm mb-1">
-                <span className="text-gray-500">O3 μg/m³</span>
-                <span className="font-semibold">169</span>
-              </div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div
-                  className="bg-red-500 h-2 rounded-full"
-                  style={{ width: "85%" }}
-                ></div>
-              </div>
-            </div>
+          <div className="flex gap-3">
+            <button className="bg-white border border-blue-600 text-blue-600 px-4 py-2 rounded font-medium flex items-center">
+              <Plus size={18} className="mr-1" /> Add Location
+            </button>
+            <button className="bg-blue-600 text-white px-4 py-2 rounded font-medium flex items-center">
+              <Download size={18} className="mr-1" /> Download Data
+            </button>
           </div>
         </div>
 
-        {/* Safety Tips Section */}
-        <div className="bg-white p-6 rounded-lg border">
-          <h3 className="font-bold text-gray-800 mb-6">Stay Safe tips</h3>
-
-          <div className="space-y-4">
-            <div className="flex">
-              <div className="mr-3 text-yellow-500">
-                <span
-                  className="inline-block w-6 h-6 text-center"
-                  role="img"
-                  aria-label="Warning"
-                >
-                  ⚠️
-                </span>
-              </div>
-              <div>
-                <p className="text-gray-800">
-                  Keep your inhaler handy and avoid heavy traffic areas
-                </p>
-              </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+          {/* AQI Card */}
+          <div className="bg-white rounded-lg shadow p-4 text-center">
+            <div 
+              className="inline-block py-2 px-4 rounded-full text-xl font-bold text-white mb-3"
+              style={{ backgroundColor: statusColor }}
+            >
+              {airQualityStatus}
             </div>
-
-            <div className="flex">
-              <div className="mr-3 text-yellow-500">
-                <span
-                  className="inline-block w-6 h-6 text-center"
-                  role="img"
-                  aria-label="Warning"
-                >
-                  ⚠️
-                </span>
-              </div>
-              <div>
-                <p className="text-gray-800">
-                  Avoid outdoor activities, especially strenuous exercises like
-                  jogging.
-                </p>
-              </div>
+            <div className="text-lg text-gray-800">
+              <div>Okrika, Rivers</div>
+              <div>Nigeria</div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-4">
-        {/* Air Pollution Trends */}
-        <div className="bg-white p-6 rounded-lg border">
-          <h3 className="font-bold text-gray-800 mb-4">Air Pollution Trends</h3>
-
-          <div className="h-64 relative">
-            {/* Y-axis labels */}
-            <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs text-gray-500 py-4">
-              <span>400</span>
-              <span>300</span>
-              <span>200</span>
-              <span>100</span>
-              <span>0</span>
-            </div>
-
-            {/* Chart grid */}
-            <div className="absolute left-8 right-0 top-0 bottom-0">
-              {[0, 1, 2, 3, 4].map((i) => (
-                <div
-                  key={`grid-${i}`}
-                  className="absolute left-0 right-0 border-t border-dashed border-gray-200"
-                  style={{ top: `${i * 25}%` }}
-                ></div>
-              ))}
-
-              {/* Line chart */}
-              <svg
-                className="w-full h-full overflow-visible"
-                preserveAspectRatio="none"
+            
+            {/* AQI Gauge */}
+            <div className="relative w-48 h-24 mx-auto my-3">
+              <div className="absolute top-0 left-0 w-full h-full rounded-t-full overflow-hidden"
+                style={{ 
+                  background: 'conic-gradient(from 180deg, #d00000 0deg 36deg, #dc2f02 36deg 72deg, #e85d04 72deg 108deg, #ffba08 108deg 144deg, #43aa8b 144deg 180deg)'
+                }}
               >
-                <path
-                  d="M0,230 L60,50 L120,150 L180,70 L240,120 L300,200 L360,80"
-                  fill="none"
-                  stroke="#1d4ed8"
-                  strokeWidth="3"
-                />
-                {/* Current point */}
-                <circle cx="360" cy="80" r="6" fill="#1d4ed8" />
-              </svg>
+                <div className="absolute top-5 left-5 right-5 bottom-0 bg-white rounded-t-full"></div>
+              </div>
+              <div 
+                ref={needleRef}
+                className="absolute bottom-0 left-1/2 w-0.5 h-20 bg-gray-800 origin-bottom"
+                style={{ transform: 'rotate(90deg)' }}
+              ></div>
             </div>
+            
+            <div className="text-5xl font-bold my-2">{aqi}</div>
+            <div className="text-lg text-gray-500">AQI</div>
+          </div>
 
-            {/* X-axis labels */}
-            <div className="absolute left-8 right-0 bottom-0 flex justify-between text-xs text-gray-500">
-              <span>Mar 01</span>
-              <span>Mar 03</span>
-              <span>Mar 05</span>
-              <span>Mar 07</span>
+          {/* Pollutants Card */}
+          <div className="bg-white rounded-lg shadow p-4">
+            <h2 className="text-xl font-semibold mb-4">Pollutants</h2>
+            
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-gray-600 font-medium">PM2.5 μg/m3</span>
+                <span className="font-bold">{pm25}</span>
+              </div>
+              <div className="h-1 bg-gray-200 rounded overflow-hidden">
+                <div 
+                  className="h-full bg-red-500" 
+                  style={{ width: `${Math.min(pm25 / 2, 100)}%` }}
+                ></div>
+              </div>
+            </div>
+            
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-gray-600 font-medium">PM10 μg/m3</span>
+                <span className="font-bold">{pm10}</span>
+              </div>
+              <div className="h-1 bg-gray-200 rounded overflow-hidden">
+                <div 
+                  className="h-full bg-orange-500" 
+                  style={{ width: `${Math.min(pm10 / 3, 100)}%` }}
+                ></div>
+              </div>
+            </div>
+            
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-gray-600 font-medium">NO2 μg/m3</span>
+                <span className="font-bold">{no2}</span>
+              </div>
+              <div className="h-1 bg-gray-200 rounded overflow-hidden">
+                <div 
+                  className="h-full bg-yellow-500" 
+                  style={{ width: `${Math.min(no2, 100)}%` }}
+                ></div>
+              </div>
+            </div>
+            
+            <div className="mb-4">
+              <div className="flex justify-between items-center mb-1">
+                <span className="text-gray-600 font-medium">O3 μg/m3</span>
+                <span className="font-bold">{o3}</span>
+              </div>
+              <div className="h-1 bg-gray-200 rounded overflow-hidden">
+                <div 
+                  className="h-full bg-red-500" 
+                  style={{ width: `${Math.min(o3 / 3, 100)}%` }}
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Tips Card */}
+          <div className="bg-white rounded-lg shadow p-4">
+            <h2 className="text-xl font-semibold mb-4">Stay Safe tips</h2>
+            
+            <div className="bg-gray-50 p-3 rounded flex items-center mb-3">
+              <div className="w-6 h-6 bg-yellow-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0">!</div>
+              <div className="text-sm text-gray-800">Keep your inhaler handy and avoid heavy traffic areas</div>
+            </div>
+            
+            <div className="bg-gray-50 p-3 rounded flex items-center mb-3">
+              <div className="w-6 h-6 bg-yellow-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0">!</div>
+              <div className="text-sm text-gray-800">Avoid outdoor activities, especially strenuous exercises like jogging.</div>
+            </div>
+            
+            <div className="bg-gray-50 p-3 rounded flex items-center">
+              <div className="w-6 h-6 bg-yellow-300 rounded-full flex items-center justify-center mr-3 flex-shrink-0">!</div>
+              <div className="text-sm text-gray-800">{safetyTips[currentTip]}</div>
             </div>
           </div>
         </div>
 
-        {/* Air Pollution Levels */}
-        <div className="bg-white p-6 rounded-lg border">
-          <h3 className="font-bold text-gray-800 mb-4">Air Pollution Levels</h3>
-
-          <div className="h-64 relative">
-            {/* Y-axis labels */}
-            <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs text-gray-500 py-4">
-              <span>400</span>
-              <span>300</span>
-              <span>200</span>
-              <span>100</span>
-              <span>0</span>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Trends Chart */}
+          <div className="bg-white rounded-lg shadow p-4">
+            <h2 className="text-xl font-semibold mb-4">Air Pollution Trends</h2>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={trendsData}>
+                  <CartesianGrid strokeDasharray="5 5" vertical={false} />
+                  <XAxis dataKey="date" />
+                  <YAxis domain={[0, 400]} />
+                  <Line 
+                    type="monotone" 
+                    dataKey="value" 
+                    stroke="#0077b6" 
+                    strokeWidth={3}
+                    dot={{ r: 4, fill: "#0077b6" }}
+                    activeDot={{ r: 6 }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
+          </div>
 
-            {/* Chart grid */}
-            <div className="absolute left-8 right-0 top-0 bottom-8">
-              {[0, 1, 2, 3, 4].map((i) => (
-                <div
-                  key={`grid-level-${i}`}
-                  className="absolute left-0 right-0 border-t border-dashed border-gray-200"
-                  style={{ top: `${i * 25}%` }}
-                ></div>
-              ))}
-
-              {/* Bar chart */}
-              <div className="flex h-full items-end justify-between px-4">
-                <div
-                  className="w-8 bg-green-500 rounded-t"
-                  style={{ height: "10%" }}
-                ></div>
-                <div
-                  className="w-8 bg-red-500 rounded-t"
-                  style={{ height: "60%" }}
-                ></div>
-                <div
-                  className="w-8 bg-yellow-400 rounded-t"
-                  style={{ height: "25%" }}
-                ></div>
-                <div
-                  className="w-8 bg-orange-300 rounded-t"
-                  style={{ height: "35%" }}
-                ></div>
-                <div
-                  className="w-8 bg-red-500 rounded-t"
-                  style={{ height: "45%" }}
-                ></div>
-                <div
-                  className="w-8 bg-yellow-400 rounded-t"
-                  style={{ height: "20%" }}
-                ></div>
-                <div
-                  className="w-8 bg-orange-300 rounded-t"
-                  style={{ height: "30%" }}
-                ></div>
-                <div
-                  className="w-8 bg-red-500 rounded-t"
-                  style={{ height: "35%" }}
-                ></div>
-              </div>
-            </div>
-
-            {/* X-axis labels */}
-            <div className="absolute left-8 right-0 bottom-0 flex justify-between text-xs text-gray-500">
-              <span>Mar 01</span>
-              <span>Mar 03</span>
-              <span>Mar 05</span>
-              <span>Mar 07</span>
+          {/* Levels Chart */}
+          <div className="bg-white rounded-lg shadow p-4">
+            <h2 className="text-xl font-semibold mb-4">Air Pollution Levels</h2>
+            <div className="h-64">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={levelsData}>
+                  <CartesianGrid strokeDasharray="5 5" vertical={false} />
+                  <XAxis dataKey="date" />
+                  <YAxis domain={[0, 400]} />
+                  <Bar dataKey="green" stackId="a" fill="#43aa8b" />
+                  <Bar dataKey="yellow" stackId="a" fill="#ffba08" />
+                  <Bar dataKey="orange" stackId="a" fill="#e85d04" />
+                  <Bar dataKey="red" stackId="a" fill="#dc2f02" />
+                </BarChart>
+              </ResponsiveContainer>
             </div>
           </div>
         </div>
       </div>
     </div>
-  );
-};
-
-export default LasapaPopup;
+  )
+}

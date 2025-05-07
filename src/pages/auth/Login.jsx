@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../../services/AuthService";
+import { loginUser } from "../../services/AuthService"; // Correct import path
 
 function Login() {
   const [formData, setFormData] = useState({ username: "", password: "" });
@@ -21,28 +21,31 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-
-    console.log("Sending login request:", formData);
+    setError(null);
+    setSuccessMessage(null);
 
     try {
       const response = await loginUser(formData);
-      console.log("Login response:", response);
-      // You can still log the response or perform other actions here
+      console.log("Login successful:", response);
+      setSuccessMessage("Login successful!");
+      
+      // Store the token if your API returns one
+      if (response.access_token) {
+        localStorage.setItem("authToken", response.access_token);
+      }
+      
+      navigate("/dashboard/air-qty-dashbd");
     } catch (error) {
       console.error("Login error:", error);
-      // You might want to display a generic error message to the user, but still navigate
+      setError(error.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
-      console.log("Always navigating to dashboard");
-      navigate("/dashboard/air-qty-dashbd");
     }
   };
-  
 
   return (
     <div className="flex min-h-screen items-center justify-center py-6 px-4 sm:px-6 lg:px-8">
       <div className="p-4 sm:p-6 md:p-10 rounded-lg flex flex-col md:flex-row w-full sm:w-11/12 md:w-10/12 lg:w-3/4 max-w-8xl">
-      
         <div className="w-full md:w-1/2 md:pr-6 lg:pr-10 mb-8 md:mb-0">
           <img src="logo.png" alt="airaware logo" className="logo-size mb-4" />
           <h1 className="font-poppins text-2xl sm:text-3xl md:text-[40px] font-semibold leading-tight md:leading-[50px] text-[#1E4866]">
@@ -65,7 +68,7 @@ function Login() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
-            <label htmlFor="email" className="mb-1 font-medium">Email address</label>
+            <label htmlFor="username" className="mb-1 font-medium">Email address</label>
             <input
               type="email"
               name="username"
@@ -112,7 +115,6 @@ function Login() {
           <p className="font-medium text-[#265B80] text-sm sm:text-base mt-2">Forgot password?</p>
         </div>
 
-        
         <div className="w-full md:w-1/2 flex items-center justify-center">
           <img
             src="signupimg.png"
