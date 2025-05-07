@@ -220,7 +220,7 @@ export default function AirQualityDashboard() {
               {airQualityStatus}
             </div>
             <div className="text-lg text-gray-800">
-              <div>Okrika, Rivers</div>
+              <div>Lagos</div>
               <div>Nigeria</div>
             </div>
             
